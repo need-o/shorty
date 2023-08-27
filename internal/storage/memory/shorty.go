@@ -9,7 +9,7 @@ import (
 type ShortyStorage struct {
 	shorty sync.Map
 	visits []models.Visit
-	m      *sync.Mutex
+	m      sync.Mutex
 }
 
 func NewShortyStorage() *ShortyStorage {
