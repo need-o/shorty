@@ -16,6 +16,8 @@ type (
 		Get(ctx context.Context, id string) (*models.Shorty, error)
 		Create(ctx context.Context, sh *models.Shorty) error
 		Update(ctx context.Context, sh *models.Shorty) error
+		CreateVisit(ctx context.Context, visit *models.Visit) error
+		GetVisits(ctx context.Context, shortyID string) ([]models.Visit, error)
 	}
 
 	Shorty struct {
@@ -30,7 +32,19 @@ func New(storage storage) *Shorty {
 }
 
 func (s *Shorty) Get(ctx context.Context, id string) (*models.Shorty, error) {
-	return s.storage.Get(ctx, id)
+	sh, err := s.storage.Get(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	visits, err := s.storage.GetVisits(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	sh.Visits = visits
+
+	return sh, nil
 }
 
 func (s *Shorty) Create(ctx context.Context, in models.ShortyInput) (*models.Shorty, error) {
@@ -51,8 +65,8 @@ func (s *Shorty) Create(ctx context.Context, in models.ShortyInput) (*models.Sho
 	return &sh, nil
 }
 
-func (s *Shorty) Redirect(ctx context.Context, id string) (*url.URL, error) {
-	sh, err := s.storage.Get(ctx, id)
+func (s *Shorty) Redirect(ctx context.Context, v models.VisitInput) (*url.URL, error) {
+	sh, err := s.storage.Get(ctx, v.ShortyID)
 	if err != nil {
 		return nil, err
 	}
@@ -62,9 +76,14 @@ func (s *Shorty) Redirect(ctx context.Context, id string) (*url.URL, error) {
 		return nil, err
 	}
 
-	sh.Visits++
+	visit := models.Visit{
+		ShortyID:  v.ShortyID,
+		Referer:   v.Referer,
+		UserIP:    v.UserIP,
+		UserAgent: v.UserAgent,
+	}
 
-	return url, s.storage.Update(ctx, sh)
+	return url, s.storage.CreateVisit(ctx, &visit)
 }
 
 func NewID(number uint32) string {

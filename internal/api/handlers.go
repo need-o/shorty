@@ -51,7 +51,7 @@ func HandleCreateShorty(shortener shortener) echo.HandlerFunc {
 
 		return c.JSON(http.StatusOK, response{
 			ID:  sh.ID,
-			URL: fmt.Sprintf("https://%v/%v", c.Request().Host, sh.ID),
+			URL: fmt.Sprintf("%v/%v", c.Request().Host, sh.ID),
 		})
 	}
 }
@@ -78,7 +78,14 @@ func HandleRedirect(shortener shortener) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 
-		url, err := shortener.Redirect(c.Request().Context(), id)
+		visit := models.VisitInput{
+			ShortyID:  id,
+			Referer:   c.Request().Referer(),
+			UserIP:    c.RealIP(),
+			UserAgent: c.Request().UserAgent(),
+		}
+
+		url, err := shortener.Redirect(c.Request().Context(), visit)
 		if err != nil {
 			if errors.Is(err, models.ErrShortyNotFound) {
 				return echo.NewHTTPError(http.StatusNotFound)

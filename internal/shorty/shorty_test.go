@@ -110,14 +110,19 @@ func TestShorty(t *testing.T) {
 				_, err := shorty.Create(ctx, test.input)
 				require.NoError(t, err)
 
-				url, err := shorty.Redirect(ctx, test.input.ID)
+				url, err := shorty.Redirect(ctx, models.VisitInput{
+					ShortyID:  test.input.ID,
+					Referer:   "https://example.com",
+					UserIP:    "127.0.0.1",
+					UserAgent: "",
+				})
 				require.NoError(t, err)
 
 				sh, err := shorty.Get(ctx, test.input.ID)
 				require.NoError(t, err)
 
 				assert.Equal(t, url.String(), test.input.URL)
-				assert.True(t, sh.Visits == 1)
+				assert.True(t, len(sh.Visits) == 1)
 			},
 		},
 		{
@@ -126,7 +131,12 @@ func TestShorty(t *testing.T) {
 				ID: "not_found",
 			},
 			run: func(test test, shorty *Shorty) {
-				_, err := shorty.Redirect(ctx, test.input.ID)
+				_, err := shorty.Redirect(ctx, models.VisitInput{
+					ShortyID:  test.input.ID,
+					Referer:   "https://example.com",
+					UserIP:    "127.0.0.1",
+					UserAgent: "",
+				})
 
 				require.ErrorIs(t, err, models.ErrShortyNotFound)
 			},

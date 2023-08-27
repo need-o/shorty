@@ -17,8 +17,8 @@ func NewValidator() *requestValidator {
 	}
 }
 
-func (v *requestValidator) Validate(i any) error {
-	if err := v.v.Struct(i); err != nil {
+func (v *requestValidator) Validate(s any) error {
+	if err := v.v.Struct(s); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 

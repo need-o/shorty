@@ -13,7 +13,7 @@ type (
 	shortener interface {
 		Get(ctx context.Context, id string) (*models.Shorty, error)
 		Create(ctx context.Context, in models.ShortyInput) (*models.Shorty, error)
-		Redirect(ctx context.Context, id string) (*url.URL, error)
+		Redirect(ctx context.Context, visit models.VisitInput) (*url.URL, error)
 	}
 
 	CloseFunc func(context.Context) error

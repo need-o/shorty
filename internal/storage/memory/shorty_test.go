@@ -121,3 +121,23 @@ func TestUpdate(t *testing.T) {
 		assert.ErrorIs(t, err, models.ErrShortyNotFound)
 	})
 }
+
+func TestCreateVisit(t *testing.T) {
+	ctx := context.Background()
+
+	t.Run("create valid visit", func(t *testing.T) {
+		s := NewShortyStorage()
+
+		input := models.Visit{
+			ShortyID:  "test",
+			Referer:   "https://example.com",
+			UserIP:    "127.0.0.1",
+			UserAgent: "",
+		}
+
+		err := s.CreateVisit(ctx, &input)
+		assert.NoError(t, err)
+		assert.NotNil(t, input.CreatedAt)
+		assert.NotNil(t, input.UpdatedAt)
+	})
+}

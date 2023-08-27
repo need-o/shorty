@@ -2,7 +2,6 @@ create table shorty
 (
     id         text     not null constraint shorty_pk primary key,
     url        text     not null,
-    visits     integer,
     created_at datetime not null,
     updated_at datetime not null
 );
