@@ -141,3 +141,41 @@ func TestCreateVisit(t *testing.T) {
 		assert.NotNil(t, input.UpdatedAt)
 	})
 }
+
+func TestGetVisits(t *testing.T) {
+	ctx := context.Background()
+
+	t.Run("get existing visits", func(t *testing.T) {
+		s := NewShortyStorage()
+
+		input := models.Visit{
+			ShortyID:  "test",
+			Referer:   "https://example.com",
+			UserIP:    "127.0.0.1",
+			UserAgent: "",
+		}
+
+		err := s.CreateVisit(ctx, &input)
+		assert.NoError(t, err)
+
+		err = s.CreateVisit(ctx, &input)
+		assert.NoError(t, err)
+
+		err = s.CreateVisit(ctx, &input)
+		assert.NoError(t, err)
+
+		visits, err := s.GetVisits(ctx, input.ShortyID)
+		assert.NoError(t, err)
+
+		assert.True(t, len(visits) == 3)
+	})
+
+	t.Run("get not existing visits", func(t *testing.T) {
+		s := NewShortyStorage()
+
+		visits, err := s.GetVisits(ctx, "not_existing")
+		assert.NoError(t, err)
+
+		assert.True(t, len(visits) == 0)
+	})
+}
