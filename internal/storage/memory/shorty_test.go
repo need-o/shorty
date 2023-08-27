@@ -147,6 +147,7 @@ func TestGetVisits(t *testing.T) {
 
 	t.Run("get existing visits", func(t *testing.T) {
 		s := NewShortyStorage()
+		count := 10
 
 		input := models.Visit{
 			ShortyID:  "test",
@@ -155,19 +156,15 @@ func TestGetVisits(t *testing.T) {
 			UserAgent: "",
 		}
 
-		err := s.CreateVisit(ctx, &input)
-		assert.NoError(t, err)
-
-		err = s.CreateVisit(ctx, &input)
-		assert.NoError(t, err)
-
-		err = s.CreateVisit(ctx, &input)
-		assert.NoError(t, err)
+		for i := 0; i < count; i++ {
+			err := s.CreateVisit(ctx, &input)
+			assert.NoError(t, err)
+		}
 
 		visits, err := s.GetVisits(ctx, input.ShortyID)
 		assert.NoError(t, err)
 
-		assert.True(t, len(visits) == 3)
+		assert.True(t, len(visits) == count)
 	})
 
 	t.Run("get not existing visits", func(t *testing.T) {
