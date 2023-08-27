@@ -10,7 +10,7 @@ import (
 func (a *Api) router() {
 	a.echo = echo.New()
 	a.echo.Use(middleware.RequestID())
-	a.echo.Use(requestsMiddleware())
+	a.echo.Use(requestLogMiddleware())
 	a.echo.Validator = NewValidator()
 
 	api := a.echo.Group("/api")
@@ -20,7 +20,7 @@ func (a *Api) router() {
 	a.echo.GET("/:id", HandleRedirect(a.shortener))
 }
 
-func requestsMiddleware() echo.MiddlewareFunc {
+func requestLogMiddleware() echo.MiddlewareFunc {
 	return middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogURI:    true,
 		LogStatus: true,

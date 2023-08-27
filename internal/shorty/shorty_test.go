@@ -52,6 +52,8 @@ func TestShorty(t *testing.T) {
 		run   func(test, *Shorty)
 	}
 
+	ctx := context.Background()
+
 	tests := []test{
 		{
 			name: "create with URL",
@@ -59,13 +61,13 @@ func TestShorty(t *testing.T) {
 				URL: "https://example.com",
 			},
 			run: func(test test, shorty *Shorty) {
-				sh, err := shorty.Create(context.Background(), test.input)
+				sh, err := shorty.Create(ctx, test.input)
 
 				require.NoError(t, err)
 				assert.NotEmpty(t, sh.ID)
 				assert.Equal(t, sh.URL, test.input.URL)
-				assert.NotZero(t, sh.CreatedAt)
-				assert.NotZero(t, sh.CreatedAt)
+				assert.NotNil(t, sh.CreatedAt)
+				assert.NotNil(t, sh.CreatedAt)
 			},
 		},
 		{
@@ -75,7 +77,7 @@ func TestShorty(t *testing.T) {
 				URL: "https://example.com",
 			},
 			run: func(test test, shorty *Shorty) {
-				sh, err := shorty.Create(context.Background(), test.input)
+				sh, err := shorty.Create(ctx, test.input)
 
 				require.NoError(t, err)
 				assert.Equal(t, sh.ID, test.input.ID)
@@ -91,8 +93,8 @@ func TestShorty(t *testing.T) {
 				URL: "https://example.com",
 			},
 			run: func(test test, shorty *Shorty) {
-				_, err := shorty.Create(context.Background(), test.input)
-				_, errExisting := shorty.Create(context.Background(), test.input)
+				_, err := shorty.Create(ctx, test.input)
+				_, errExisting := shorty.Create(ctx, test.input)
 
 				require.NoError(t, err)
 				assert.ErrorIs(t, errExisting, models.ErrShorteningExists)
@@ -105,16 +107,16 @@ func TestShorty(t *testing.T) {
 				URL: "https://example.com",
 			},
 			run: func(test test, shorty *Shorty) {
-				_, err := shorty.Create(context.Background(), test.input)
+				_, err := shorty.Create(ctx, test.input)
 				require.NoError(t, err)
 
-				url, err := shorty.Redirect(context.Background(), test.input.ID)
+				url, err := shorty.Redirect(ctx, test.input.ID)
 				require.NoError(t, err)
 
-				sh, err := shorty.Get(context.Background(), test.input.ID)
+				sh, err := shorty.Get(ctx, test.input.ID)
 				require.NoError(t, err)
 
-				assert.Equal(t, url, test.input.URL)
+				assert.Equal(t, url.String(), test.input.URL)
 				assert.True(t, sh.Visits == 1)
 			},
 		},
@@ -124,7 +126,7 @@ func TestShorty(t *testing.T) {
 				ID: "not_found",
 			},
 			run: func(test test, shorty *Shorty) {
-				_, err := shorty.Redirect(context.Background(), test.input.ID)
+				_, err := shorty.Redirect(ctx, test.input.ID)
 
 				require.ErrorIs(t, err, models.ErrShorteningNotFound)
 			},

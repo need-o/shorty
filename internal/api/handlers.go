@@ -91,6 +91,10 @@ func HandleRedirect(shortener shortener) echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusInternalServerError)
 		}
 
+		if len(c.QueryParams()) > 0 {
+			url.RawQuery = c.QueryParams().Encode()
+		}
+
 		return c.Redirect(http.StatusMovedPermanently, url.String())
 	}
 }
