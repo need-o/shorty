@@ -18,9 +18,8 @@ func HandleCreateShorty(shortener shortener) echo.HandlerFunc {
 			URL string `json:"url" validate:"required,url"`
 		}
 		response struct {
-			ID      string      `json:"id,omitempty"`
-			URL     string      `json:"url,omitempty"`
-			Message interface{} `json:"message,omitempty"`
+			ID  string `json:"id,omitempty"`
+			URL string `json:"url,omitempty"`
 		}
 	)
 
@@ -43,9 +42,7 @@ func HandleCreateShorty(shortener shortener) echo.HandlerFunc {
 		sh, err := shortener.Create(c.Request().Context(), input)
 		if err != nil {
 			if errors.Is(err, models.ErrShortyExists) {
-				return echo.NewHTTPError(http.StatusConflict, response{
-					Message: models.ErrShortyExists.Error(),
-				})
+				return echo.NewHTTPError(http.StatusConflict, models.ErrShortyExists.Error())
 			}
 
 			log.Errorf("error create shorty %v: %v", req.URL, err)
