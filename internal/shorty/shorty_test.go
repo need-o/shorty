@@ -48,14 +48,14 @@ func TestNewID(t *testing.T) {
 func TestShorty(t *testing.T) {
 	type test struct {
 		name  string
-		input models.ShorteningInput
+		input models.ShortyInput
 		run   func(test, *Shorty)
 	}
 
 	tests := []test{
 		{
 			name: "create with URL",
-			input: models.ShorteningInput{
+			input: models.ShortyInput{
 				URL: "https://example.com",
 			},
 			run: func(test test, shorty *Shorty) {
@@ -70,7 +70,7 @@ func TestShorty(t *testing.T) {
 		},
 		{
 			name: "create with ID and URL",
-			input: models.ShorteningInput{
+			input: models.ShortyInput{
 				ID:  "test",
 				URL: "https://example.com",
 			},
@@ -86,7 +86,7 @@ func TestShorty(t *testing.T) {
 		},
 		{
 			name: "create with existing ID",
-			input: models.ShorteningInput{
+			input: models.ShortyInput{
 				ID:  "test",
 				URL: "https://example.com",
 			},
@@ -100,7 +100,7 @@ func TestShorty(t *testing.T) {
 		},
 		{
 			name: "redirect with ID",
-			input: models.ShorteningInput{
+			input: models.ShortyInput{
 				ID:  "test",
 				URL: "https://example.com",
 			},
@@ -108,19 +108,19 @@ func TestShorty(t *testing.T) {
 				_, err := shorty.Create(context.Background(), test.input)
 				require.NoError(t, err)
 
-				rdr, err := shorty.Redirect(context.Background(), test.input.ID)
+				url, err := shorty.Redirect(context.Background(), test.input.ID)
 				require.NoError(t, err)
 
-				sh2, err := shorty.Get(context.Background(), test.input.ID)
+				sh, err := shorty.Get(context.Background(), test.input.ID)
 				require.NoError(t, err)
 
-				assert.Equal(t, rdr.URL, test.input.URL)
-				assert.True(t, sh2.Visits == 1)
+				assert.Equal(t, url, test.input.URL)
+				assert.True(t, sh.Visits == 1)
 			},
 		},
 		{
 			name: "redirect not found",
-			input: models.ShorteningInput{
+			input: models.ShortyInput{
 				ID: "not_found",
 			},
 			run: func(test test, shorty *Shorty) {

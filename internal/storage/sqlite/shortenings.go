@@ -8,6 +8,7 @@ import (
 	"shorty/internal/models"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/mattn/go-sqlite3"
 )
 
 type ShorteningStorage struct {
@@ -45,6 +46,15 @@ func (s *ShorteningStorage) Create(ctx context.Context, sh *models.Shortening) e
 		`INSERT INTO shortenings (id, url, visits, created_at, updated_at) 
 		 VALUES (:id, :url, :visits, :created_at, :updated_at);`, &sh,
 	)
+
+	var sqliteErr sqlite3.Error
+
+	if errors.As(err, &sqliteErr) {
+		if errors.Is(sqliteErr.Code, sqlite3.ErrConstraint) {
+			return models.ErrShorteningExists
+		}
+	}
+
 	if err != nil {
 		return fmt.Errorf("create shortenings error: %w", err)
 	}

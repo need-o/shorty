@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"net/http"
+	"net/url"
 	"shorty/internal/models"
 
 	"github.com/labstack/echo/v4"
@@ -11,8 +12,8 @@ import (
 type (
 	shortener interface {
 		Get(ctx context.Context, id string) (*models.Shortening, error)
-		Create(ctx context.Context, in models.ShorteningInput) (*models.Shortening, error)
-		Redirect(ctx context.Context, id string) (*models.ShorteningRedirect, error)
+		Create(ctx context.Context, in models.ShortyInput) (*models.Shortening, error)
+		Redirect(ctx context.Context, id string) (*url.URL, error)
 	}
 
 	CloseFunc func(context.Context) error

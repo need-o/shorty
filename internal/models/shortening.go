@@ -11,12 +11,8 @@ type (
 		UpdatedAt *time.Time `json:"updated_at" db:"updated_at"`
 	}
 
-	ShorteningInput struct {
+	ShortyInput struct {
 		ID  string `json:"id"`
-		URL string `json:"url"`
-	}
-
-	ShorteningRedirect struct {
 		URL string `json:"url"`
 	}
 )

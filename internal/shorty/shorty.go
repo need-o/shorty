@@ -2,6 +2,7 @@ package shorty
 
 import (
 	"context"
+	"net/url"
 	"shorty/internal/models"
 	"strings"
 
@@ -32,7 +33,7 @@ func (s *Shorty) Get(ctx context.Context, id string) (*models.Shortening, error)
 	return s.storage.Get(ctx, id)
 }
 
-func (s *Shorty) Create(ctx context.Context, in models.ShorteningInput) (*models.Shortening, error) {
+func (s *Shorty) Create(ctx context.Context, in models.ShortyInput) (*models.Shortening, error) {
 	sh := models.Shortening{
 		ID:  in.ID,
 		URL: in.URL,
@@ -50,15 +51,20 @@ func (s *Shorty) Create(ctx context.Context, in models.ShorteningInput) (*models
 	return &sh, nil
 }
 
-func (s *Shorty) Redirect(ctx context.Context, id string) (*models.ShorteningRedirect, error) {
+func (s *Shorty) Redirect(ctx context.Context, id string) (*url.URL, error) {
 	sh, err := s.storage.Get(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	url, err := url.Parse(sh.URL)
 	if err != nil {
 		return nil, err
 	}
 
 	sh.Visits++
 
-	return &models.ShorteningRedirect{URL: sh.URL}, s.storage.Update(ctx, sh)
+	return url, s.storage.Update(ctx, sh)
 }
 
 func NewID(number uint32) string {
