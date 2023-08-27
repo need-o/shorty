@@ -38,7 +38,7 @@ func (s *ShorteningStorage) Get(ctx context.Context, id string) (*models.Shorten
 	return &sh, nil
 }
 
-func (s *ShorteningStorage) Create(ctx context.Context, sh models.Shortening) error {
+func (s *ShorteningStorage) Create(ctx context.Context, sh *models.Shortening) error {
 	sh.BeforeCreate()
 
 	_, err := s.db.NamedExecContext(ctx,
@@ -52,7 +52,9 @@ func (s *ShorteningStorage) Create(ctx context.Context, sh models.Shortening) er
 	return nil
 }
 
-func (s *ShorteningStorage) Update(ctx context.Context, sh models.Shortening) error {
+func (s *ShorteningStorage) Update(ctx context.Context, sh *models.Shortening) error {
+	sh.BeforeUpdate()
+
 	_, err := s.db.NamedExecContext(ctx,
 		`UPDATE shortenings SET url=:url, visits=:visits, created_at=:created_at, updated_at=:updated_at
 		 WHERE id=:id;`, &sh,

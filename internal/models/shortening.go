@@ -32,3 +32,11 @@ func (s *Shortening) BeforeCreate() {
 		s.UpdatedAt = &now
 	}
 }
+
+func (s *Shortening) BeforeUpdate() {
+	now := time.Now()
+
+	if s.UpdatedAt == nil {
+		s.UpdatedAt = &now
+	}
+}

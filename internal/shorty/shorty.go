@@ -13,8 +13,8 @@ const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
 type (
 	storage interface {
 		Get(ctx context.Context, id string) (*models.Shortening, error)
-		Create(ctx context.Context, sh models.Shortening) error
-		Update(ctx context.Context, sh models.Shortening) error
+		Create(ctx context.Context, sh *models.Shortening) error
+		Update(ctx context.Context, sh *models.Shortening) error
 	}
 
 	Shorty struct {
@@ -42,7 +42,7 @@ func (s *Shorty) Create(ctx context.Context, in models.InputShortening) (string,
 		sh.ID = NewID(uuid.New().ID())
 	}
 
-	err := s.storage.Create(ctx, sh)
+	err := s.storage.Create(ctx, &sh)
 	if err != nil {
 		return "", err
 	}
@@ -58,7 +58,7 @@ func (s *Shorty) Redirect(ctx context.Context, id string) (*models.RedirectShort
 
 	sh.Visits++
 
-	return &models.RedirectShortening{URL: sh.URL}, s.storage.Update(ctx, *sh)
+	return &models.RedirectShortening{URL: sh.URL}, s.storage.Update(ctx, sh)
 }
 
 func NewID(number uint32) string {

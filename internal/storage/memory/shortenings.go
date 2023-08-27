@@ -27,13 +27,24 @@ func (s *ShorteningStorage) Get(ctx context.Context, id string) (*models.Shorten
 	return &result, nil
 }
 
-func (s *ShorteningStorage) Create(ctx context.Context, sh models.Shortening) error {
+func (s *ShorteningStorage) Create(ctx context.Context, sh *models.Shortening) error {
+	if _, ok := s.m.Load(sh.ID); ok {
+		return models.ErrShorteningExists
+	}
+
 	sh.BeforeCreate()
+	s.m.Store(sh.ID, sh)
 
 	return nil
 }
 
-func (s *ShorteningStorage) Update(ctx context.Context, sh models.Shortening) error {
+func (s *ShorteningStorage) Update(ctx context.Context, sh *models.Shortening) error {
+	if _, ok := s.m.Load(sh.ID); ok {
+		return models.ErrShorteningNotFound
+	}
+
+	sh.BeforeUpdate()
+	s.m.Store(sh.ID, sh)
 
 	return nil
 }
