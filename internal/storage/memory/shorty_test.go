@@ -9,11 +9,11 @@ import (
 )
 
 func TestGet(t *testing.T) {
-	t.Run("valid get shortening", func(t *testing.T) {
+	t.Run("valid get shorty", func(t *testing.T) {
 		ctx := context.Background()
-		s := NewShorteningStorage()
+		s := NewShortyStorage()
 
-		input := models.Shortening{
+		input := models.Shorty{
 			ID:  "test",
 			URL: "https://example.com",
 		}
@@ -30,22 +30,22 @@ func TestGet(t *testing.T) {
 		assert.NotNil(t, sh.UpdatedAt)
 	})
 
-	t.Run("not found get shortening", func(t *testing.T) {
+	t.Run("not found get shorty", func(t *testing.T) {
 		ctx := context.Background()
-		s := NewShorteningStorage()
+		s := NewShortyStorage()
 
 		_, err := s.Get(ctx, "test")
-		assert.ErrorIs(t, err, models.ErrShorteningNotFound)
+		assert.ErrorIs(t, err, models.ErrShortyNotFound)
 	})
 }
 
 func TestCreate(t *testing.T) {
 	ctx := context.Background()
 
-	t.Run("create valid shortening", func(t *testing.T) {
-		s := NewShorteningStorage()
+	t.Run("create valid shorty", func(t *testing.T) {
+		s := NewShortyStorage()
 
-		input := models.Shortening{
+		input := models.Shorty{
 			URL: "https://example.com",
 		}
 
@@ -55,10 +55,10 @@ func TestCreate(t *testing.T) {
 		assert.NotNil(t, input.UpdatedAt)
 	})
 
-	t.Run("create valid shortening with ID", func(t *testing.T) {
-		s := NewShorteningStorage()
+	t.Run("create valid shorty with ID", func(t *testing.T) {
+		s := NewShortyStorage()
 
-		input := models.Shortening{
+		input := models.Shorty{
 			ID:  "test",
 			URL: "https://example.com",
 		}
@@ -69,10 +69,10 @@ func TestCreate(t *testing.T) {
 		assert.NotNil(t, input.UpdatedAt)
 	})
 
-	t.Run("create invalid shortening with existing ID", func(t *testing.T) {
-		s := NewShorteningStorage()
+	t.Run("create invalid shorty with existing ID", func(t *testing.T) {
+		s := NewShortyStorage()
 
-		input := models.Shortening{
+		input := models.Shorty{
 			ID:  "test",
 			URL: "https://example.com",
 		}
@@ -81,17 +81,17 @@ func TestCreate(t *testing.T) {
 		assert.NoError(t, err)
 
 		err = s.Create(ctx, &input)
-		assert.ErrorIs(t, err, models.ErrShorteningExists)
+		assert.ErrorIs(t, err, models.ErrShortyExists)
 	})
 }
 
 func TestUpdate(t *testing.T) {
 	ctx := context.Background()
 
-	t.Run("update valid shortening", func(t *testing.T) {
-		s := NewShorteningStorage()
+	t.Run("update valid shorty", func(t *testing.T) {
+		s := NewShortyStorage()
 
-		input := models.Shortening{
+		input := models.Shorty{
 			ID:  "test",
 			URL: "https://example.com",
 		}
@@ -109,15 +109,15 @@ func TestUpdate(t *testing.T) {
 		assert.Equal(t, changed.URL, input.URL)
 	})
 
-	t.Run("update not found shortening", func(t *testing.T) {
-		s := NewShorteningStorage()
+	t.Run("update not found shorty", func(t *testing.T) {
+		s := NewShortyStorage()
 
-		input := models.Shortening{
+		input := models.Shorty{
 			ID:  "test",
 			URL: "https://example.com",
 		}
 
 		err := s.Update(ctx, &input)
-		assert.ErrorIs(t, err, models.ErrShorteningNotFound)
+		assert.ErrorIs(t, err, models.ErrShortyNotFound)
 	})
 }

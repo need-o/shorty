@@ -3,6 +3,6 @@ package models
 import "errors"
 
 var (
-	ErrShorteningNotFound = errors.New("shortening not found")
-	ErrShorteningExists   = errors.New("shortening already exist")
+	ErrShortyNotFound = errors.New("shorty not found")
+	ErrShortyExists   = errors.New("shorty already exist")
 )

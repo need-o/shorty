@@ -97,7 +97,7 @@ func TestShorty(t *testing.T) {
 				_, errExisting := shorty.Create(ctx, test.input)
 
 				require.NoError(t, err)
-				assert.ErrorIs(t, errExisting, models.ErrShorteningExists)
+				assert.ErrorIs(t, errExisting, models.ErrShortyExists)
 			},
 		},
 		{
@@ -128,14 +128,14 @@ func TestShorty(t *testing.T) {
 			run: func(test test, shorty *Shorty) {
 				_, err := shorty.Redirect(ctx, test.input.ID)
 
-				require.ErrorIs(t, err, models.ErrShorteningNotFound)
+				require.ErrorIs(t, err, models.ErrShortyNotFound)
 			},
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			shorty := New(memory.NewShorteningStorage())
+			shorty := New(memory.NewShortyStorage())
 
 			test.run(test, shorty)
 		})

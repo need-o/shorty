@@ -26,7 +26,7 @@ func main() {
 	defer db.Close()
 
 	storage := sqlite.NewStorage(db)
-	shorty := shorty.New(storage.Shortenings)
+	shorty := shorty.New(storage.Shorty)
 	api := api.New(shorty)
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)

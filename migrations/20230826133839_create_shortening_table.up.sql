@@ -1,11 +1,11 @@
-create table shortenings
+create table shorty
 (
-    id         text     not null constraint shortening_pk primary key,
+    id         text     not null constraint shorty_pk primary key,
     url        text     not null,
     visits     integer,
     created_at datetime not null,
     updated_at datetime not null
 );
 
-create unique index shortening_id_uindex
-    on shortenings (id);
+create unique index shorty_id_uindex
+    on shorty (id);

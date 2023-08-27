@@ -13,9 +13,9 @@ const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
 
 type (
 	storage interface {
-		Get(ctx context.Context, id string) (*models.Shortening, error)
-		Create(ctx context.Context, sh *models.Shortening) error
-		Update(ctx context.Context, sh *models.Shortening) error
+		Get(ctx context.Context, id string) (*models.Shorty, error)
+		Create(ctx context.Context, sh *models.Shorty) error
+		Update(ctx context.Context, sh *models.Shorty) error
 	}
 
 	Shorty struct {
@@ -29,12 +29,12 @@ func New(storage storage) *Shorty {
 	}
 }
 
-func (s *Shorty) Get(ctx context.Context, id string) (*models.Shortening, error) {
+func (s *Shorty) Get(ctx context.Context, id string) (*models.Shorty, error) {
 	return s.storage.Get(ctx, id)
 }
 
-func (s *Shorty) Create(ctx context.Context, in models.ShortyInput) (*models.Shortening, error) {
-	sh := models.Shortening{
+func (s *Shorty) Create(ctx context.Context, in models.ShortyInput) (*models.Shorty, error) {
+	sh := models.Shorty{
 		ID:  in.ID,
 		URL: in.URL,
 	}

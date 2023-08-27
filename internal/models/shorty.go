@@ -3,7 +3,7 @@ package models
 import "time"
 
 type (
-	Shortening struct {
+	Shorty struct {
 		ID        string     `json:"id" db:"id"`
 		URL       string     `json:"url" db:"url"`
 		Visits    int64      `json:"visits" db:"visits"`
@@ -17,7 +17,7 @@ type (
 	}
 )
 
-func (s *Shortening) BeforeCreate() {
+func (s *Shorty) BeforeCreate() {
 	now := time.Now()
 
 	if s.CreatedAt == nil {
@@ -29,7 +29,7 @@ func (s *Shortening) BeforeCreate() {
 	}
 }
 
-func (s *Shortening) BeforeUpdate() {
+func (s *Shorty) BeforeUpdate() {
 	now := time.Now()
 
 	if s.UpdatedAt == nil {

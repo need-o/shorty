@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func HandleCreateShortening(shortener shortener) echo.HandlerFunc {
+func HandleCreateShorty(shortener shortener) echo.HandlerFunc {
 	type (
 		request struct {
 			ID  string `json:"id,omitempty" validate:"omitempty,alphanum"`
@@ -42,13 +42,13 @@ func HandleCreateShortening(shortener shortener) echo.HandlerFunc {
 
 		sh, err := shortener.Create(c.Request().Context(), input)
 		if err != nil {
-			if errors.Is(err, models.ErrShorteningExists) {
+			if errors.Is(err, models.ErrShortyExists) {
 				return echo.NewHTTPError(http.StatusConflict, response{
-					Message: models.ErrShorteningExists.Error(),
+					Message: models.ErrShortyExists.Error(),
 				})
 			}
 
-			log.Errorf("error create shortening %v: %v", req.URL, err)
+			log.Errorf("error create shorty %v: %v", req.URL, err)
 			return echo.NewHTTPError(http.StatusInternalServerError)
 		}
 
@@ -59,18 +59,18 @@ func HandleCreateShortening(shortener shortener) echo.HandlerFunc {
 	}
 }
 
-func HandleGetShortening(shortener shortener) echo.HandlerFunc {
+func HandleGetShorty(shortener shortener) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 
 		sh, err := shortener.Get(c.Request().Context(), id)
 		if err != nil {
-			if errors.Is(err, models.ErrShorteningNotFound) {
+			if errors.Is(err, models.ErrShortyNotFound) {
 				return echo.NewHTTPError(http.StatusNotFound)
 			}
 
-			log.Errorf("error get shortening %v", err)
-			return echo.NewHTTPError(http.StatusInternalServerError, "error get shortening")
+			log.Errorf("error get shorty %v", err)
+			return echo.NewHTTPError(http.StatusInternalServerError, "error get shorty")
 		}
 
 		return c.JSON(http.StatusOK, sh)
@@ -83,11 +83,11 @@ func HandleRedirect(shortener shortener) echo.HandlerFunc {
 
 		url, err := shortener.Redirect(c.Request().Context(), id)
 		if err != nil {
-			if errors.Is(err, models.ErrShorteningNotFound) {
+			if errors.Is(err, models.ErrShortyNotFound) {
 				return echo.NewHTTPError(http.StatusNotFound)
 			}
 
-			log.Errorf("error redirect shortening %v: %v", url, err)
+			log.Errorf("error redirect shorty %v: %v", url, err)
 			return echo.NewHTTPError(http.StatusInternalServerError)
 		}
 

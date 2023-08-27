@@ -14,8 +14,8 @@ func (a *Api) router() {
 	a.echo.Validator = NewValidator()
 
 	api := a.echo.Group("/api")
-	api.POST("/shortening", HandleCreateShortening(a.shortener))
-	api.GET("/shortening/:id", HandleGetShortening(a.shortener))
+	api.POST("/shorty", HandleCreateShorty(a.shortener))
+	api.GET("/shorty/:id", HandleGetShorty(a.shortener))
 
 	a.echo.GET("/:id", HandleRedirect(a.shortener))
 }

@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS shortenings;
+DROP TABLE IF EXISTS shorty;

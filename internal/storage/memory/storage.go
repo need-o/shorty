@@ -1,11 +1,11 @@
 package memory
 
 type Storage struct {
-	Shortenings *ShorteningStorage
+	Shorty *ShortyStorage
 }
 
 func NewStorage() *Storage {
 	return &Storage{
-		Shortenings: NewShorteningStorage(),
+		Shorty: NewShortyStorage(),
 	}
 }
