@@ -1,0 +1,4 @@
+.vscode
+__debug_*
+/shorty
+shorty.db
