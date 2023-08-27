@@ -18,8 +18,8 @@ func HandleCreateShorty(shortener shortener) echo.HandlerFunc {
 			URL string `json:"url" validate:"required,url"`
 		}
 		response struct {
-			ID  string `json:"id,omitempty"`
-			URL string `json:"url,omitempty"`
+			ID      string `json:"id,omitempty"`
+			Address string `json:"address,omitempty"`
 		}
 	)
 
@@ -50,8 +50,8 @@ func HandleCreateShorty(shortener shortener) echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, response{
-			ID:  sh.ID,
-			URL: fmt.Sprintf("%v/%v", c.Request().Host, sh.ID),
+			ID:      sh.ID,
+			Address: fmt.Sprintf("%v/%v", c.Request().Host, sh.ID),
 		})
 	}
 }

@@ -26,7 +26,7 @@ func requestLogMiddleware() echo.MiddlewareFunc {
 		LogStatus: true,
 		LogValuesFunc: func(c echo.Context, values middleware.RequestLoggerValues) error {
 			log.WithFields(logrus.Fields{
-				"URI":    values.URI,
+				"uri":    values.URI,
 				"status": values.Status,
 			}).Info("request")
 
