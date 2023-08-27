@@ -15,19 +15,40 @@ type (
 		Redirect(ctx context.Context, id string) (*models.ShorteningRedirect, error)
 	}
 
+	CloseFunc func(context.Context) error
+
 	Api struct {
 		echo      *echo.Echo
 		shortener shortener
+		closers   []CloseFunc
 	}
 )
 
 func New(shortener shortener) *Api {
-	return &Api{
-		echo:      echo.New(),
+	api := Api{
 		shortener: shortener,
 	}
+
+	api.router()
+	api.AddCloser(api.echo.Shutdown)
+
+	return &api
 }
 
 func (s *Api) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	s.echo.ServeHTTP(w, r)
+}
+
+func (a *Api) AddCloser(closer CloseFunc) {
+	a.closers = append(a.closers, closer)
+}
+
+func (a *Api) Shutdown(ctx context.Context) error {
+	for _, close := range a.closers {
+		if err := close(ctx); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
