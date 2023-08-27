@@ -11,8 +11,8 @@ import (
 type (
 	shortener interface {
 		Get(ctx context.Context, id string) (*models.Shortening, error)
-		Create(ctx context.Context, in models.InputShortening) (string, error)
-		Redirect(ctx context.Context, id string) (*models.RedirectShortening, error)
+		Create(ctx context.Context, in models.ShorteningInput) (*models.Shortening, error)
+		Redirect(ctx context.Context, id string) (*models.ShorteningRedirect, error)
 	}
 
 	Api struct {

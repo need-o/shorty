@@ -32,7 +32,7 @@ func (s *Shorty) Get(ctx context.Context, id string) (*models.Shortening, error)
 	return s.storage.Get(ctx, id)
 }
 
-func (s *Shorty) Create(ctx context.Context, in models.InputShortening) (string, error) {
+func (s *Shorty) Create(ctx context.Context, in models.ShorteningInput) (*models.Shortening, error) {
 	sh := models.Shortening{
 		ID:  in.ID,
 		URL: in.URL,
@@ -44,13 +44,13 @@ func (s *Shorty) Create(ctx context.Context, in models.InputShortening) (string,
 
 	err := s.storage.Create(ctx, &sh)
 	if err != nil {
-		return "", err
+		return &sh, err
 	}
 
-	return sh.ID, nil
+	return &sh, nil
 }
 
-func (s *Shorty) Redirect(ctx context.Context, id string) (*models.RedirectShortening, error) {
+func (s *Shorty) Redirect(ctx context.Context, id string) (*models.ShorteningRedirect, error) {
 	sh, err := s.storage.Get(ctx, id)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (s *Shorty) Redirect(ctx context.Context, id string) (*models.RedirectShort
 
 	sh.Visits++
 
-	return &models.RedirectShortening{URL: sh.URL}, s.storage.Update(ctx, sh)
+	return &models.ShorteningRedirect{URL: sh.URL}, s.storage.Update(ctx, sh)
 }
 
 func NewID(number uint32) string {

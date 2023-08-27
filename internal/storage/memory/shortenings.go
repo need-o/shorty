@@ -4,15 +4,13 @@ import (
 	"context"
 	"shorty/internal/models"
 	"sync"
-
-	"github.com/jmoiron/sqlx"
 )
 
 type ShorteningStorage struct {
 	m sync.Map
 }
 
-func NewShorteningStorage(db *sqlx.DB) *ShorteningStorage {
+func NewShorteningStorage() *ShorteningStorage {
 	return &ShorteningStorage{}
 }
 
@@ -22,9 +20,9 @@ func (s *ShorteningStorage) Get(ctx context.Context, id string) (*models.Shorten
 		return nil, models.ErrShorteningNotFound
 	}
 
-	result := sh.(models.Shortening)
+	result := sh.(*models.Shortening)
 
-	return &result, nil
+	return result, nil
 }
 
 func (s *ShorteningStorage) Create(ctx context.Context, sh *models.Shortening) error {
@@ -39,7 +37,7 @@ func (s *ShorteningStorage) Create(ctx context.Context, sh *models.Shortening) e
 }
 
 func (s *ShorteningStorage) Update(ctx context.Context, sh *models.Shortening) error {
-	if _, ok := s.m.Load(sh.ID); ok {
+	if _, ok := s.m.Load(sh.ID); !ok {
 		return models.ErrShorteningNotFound
 	}
 
