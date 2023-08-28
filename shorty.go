@@ -28,7 +28,7 @@ func main() {
 	defer db.Close()
 
 	if _, err := os.Stat(config.C().DBpath); errors.Is(err, os.ErrNotExist) {
-		err := migrate.RunForSqlite3(db.DB, config.C().MigrationsPath)
+		err := migrate.RunForSqlite3(db.DB, config.C().MigrationsSource)
 		if err != nil {
 			log.Fatal(err)
 		}
