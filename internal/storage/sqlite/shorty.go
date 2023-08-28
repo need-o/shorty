@@ -22,7 +22,7 @@ func NewShortyStorage(db *sqlx.DB) *ShortyStorage {
 	}
 }
 
-func (s *ShortyStorage) Get(ctx context.Context, id string) (*models.Shorty, error) {
+func (s *ShortyStorage) GetShorty(ctx context.Context, id string) (*models.Shorty, error) {
 	sh := models.Shorty{}
 
 	err := s.db.GetContext(ctx, &sh,
@@ -40,7 +40,7 @@ func (s *ShortyStorage) Get(ctx context.Context, id string) (*models.Shorty, err
 	return &sh, nil
 }
 
-func (s *ShortyStorage) Create(ctx context.Context, sh *models.Shorty) error {
+func (s *ShortyStorage) CreateShorty(ctx context.Context, sh *models.Shorty) error {
 	sh.BeforeCreate()
 
 	_, err := s.db.NamedExecContext(ctx,
@@ -58,20 +58,6 @@ func (s *ShortyStorage) Create(ctx context.Context, sh *models.Shorty) error {
 
 	if err != nil {
 		return fmt.Errorf("create shorty error: %w", err)
-	}
-
-	return nil
-}
-
-func (s *ShortyStorage) Update(ctx context.Context, sh *models.Shorty) error {
-	sh.BeforeUpdate()
-
-	_, err := s.db.NamedExecContext(ctx,
-		`UPDATE shorty SET url=:url, created_at=:created_at, updated_at=:updated_at
-		 WHERE id=:id;`, &sh,
-	)
-	if err != nil {
-		return fmt.Errorf("update shorty error: %w", err)
 	}
 
 	return nil

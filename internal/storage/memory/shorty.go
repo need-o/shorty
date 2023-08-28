@@ -16,7 +16,7 @@ func NewShortyStorage() *ShortyStorage {
 	return &ShortyStorage{}
 }
 
-func (s *ShortyStorage) Get(ctx context.Context, id string) (*models.Shorty, error) {
+func (s *ShortyStorage) GetShorty(ctx context.Context, id string) (*models.Shorty, error) {
 	sh, ok := s.shorty.Load(id)
 	if !ok {
 		return nil, models.ErrShortyNotFound
@@ -35,23 +35,12 @@ func (s *ShortyStorage) Get(ctx context.Context, id string) (*models.Shorty, err
 	return result, nil
 }
 
-func (s *ShortyStorage) Create(ctx context.Context, sh *models.Shorty) error {
+func (s *ShortyStorage) CreateShorty(ctx context.Context, sh *models.Shorty) error {
 	if _, ok := s.shorty.Load(sh.ID); ok {
 		return models.ErrShortyExists
 	}
 
 	sh.BeforeCreate()
-	s.shorty.Store(sh.ID, sh)
-
-	return nil
-}
-
-func (s *ShortyStorage) Update(ctx context.Context, sh *models.Shorty) error {
-	if _, ok := s.shorty.Load(sh.ID); !ok {
-		return models.ErrShortyNotFound
-	}
-
-	sh.BeforeUpdate()
 	s.shorty.Store(sh.ID, sh)
 
 	return nil

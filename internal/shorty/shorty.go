@@ -14,9 +14,8 @@ const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
 
 type (
 	storage interface {
-		Get(ctx context.Context, id string) (*models.Shorty, error)
-		Create(ctx context.Context, sh *models.Shorty) error
-		Update(ctx context.Context, sh *models.Shorty) error
+		GetShorty(ctx context.Context, id string) (*models.Shorty, error)
+		CreateShorty(ctx context.Context, sh *models.Shorty) error
 		CreateVisit(ctx context.Context, visit *models.Visit) error
 		GetVisits(ctx context.Context, shortyID string) ([]models.Visit, error)
 	}
@@ -33,7 +32,7 @@ func New(storage storage) *Shorty {
 }
 
 func (s *Shorty) Get(ctx context.Context, id string) (*models.Shorty, error) {
-	sh, err := s.storage.Get(ctx, id)
+	sh, err := s.storage.GetShorty(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +57,7 @@ func (s *Shorty) Create(ctx context.Context, in models.ShortyInput) (*models.Sho
 		sh.ID = NewID(uuid.New().ID())
 	}
 
-	err := s.storage.Create(ctx, &sh)
+	err := s.storage.CreateShorty(ctx, &sh)
 	if err != nil {
 		return &sh, err
 	}
@@ -67,7 +66,7 @@ func (s *Shorty) Create(ctx context.Context, in models.ShortyInput) (*models.Sho
 }
 
 func (s *Shorty) Redirect(ctx context.Context, v models.VisitInput) (*url.URL, error) {
-	sh, err := s.storage.Get(ctx, v.ShortyID)
+	sh, err := s.storage.GetShorty(ctx, v.ShortyID)
 	if err != nil {
 		return nil, err
 	}
