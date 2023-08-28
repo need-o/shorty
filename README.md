@@ -77,20 +77,20 @@ curl http://localhost:1323/api/shorty/sE5qwb
 
 ```json
 {
-  "id": "sE5qwb",
-  "url": "https://example.com",
-  "visits": [
-    {
-      "shorty_id": "sE5qwb",
-      "referer": "",
-      "user_ip": "127.0:0:1",
-      "user_agent": "curl/8.2.1",
-      "created_at": "2023-08-28T14:27:51.950480832+03:00",
-      "updated_at": "2023-08-28T14:27:51.950480832+03:00"
-    },
-  ],
-  "created_at": "2023-08-28T14:23:31.413414468+03:00",
-  "updated_at": "2023-08-28T14:23:31.413414468+03:00"
+    "id": "sE5qwb",
+    "url": "https://example.com",
+    "visits": [
+        {
+            "shorty_id": "sE5qwb",
+            "referer": "",
+            "user_ip": "127.0.0.1",
+            "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0",
+            "created_at": "2023-08-28T14:56:47.898469006+03:00",
+            "updated_at": "2023-08-28T14:56:47.898469006+03:00"
+        }
+    ],
+    "created_at": "2023-08-28T14:23:31.413414468+03:00",
+    "updated_at": "2023-08-28T14:23:31.413414468+03:00"
 }
 ```
 
