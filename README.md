@@ -28,6 +28,7 @@ You can use environment variables to change the default address to the database 
 # Export environment variables
 export SHORTY_DB_PATH=shorty.db
 export SHORTY_ADDRESS=:1323
+export SHORTY_MIGRATIONS_PATH=file://migrations
 
 # Run shorty
 ./shorty

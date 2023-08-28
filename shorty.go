@@ -3,15 +3,17 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/need-o/shorty/internal/api"
-	"github.com/need-o/shorty/internal/config"
-	"github.com/need-o/shorty/internal/shorty"
-	"github.com/need-o/shorty/internal/storage/sqlite"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/need-o/shorty/internal/api"
+	"github.com/need-o/shorty/internal/config"
+	"github.com/need-o/shorty/internal/migrate"
+	"github.com/need-o/shorty/internal/shorty"
+	"github.com/need-o/shorty/internal/storage/sqlite"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -24,6 +26,13 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	if _, err := os.Stat(config.C().DBpath); errors.Is(err, os.ErrNotExist) {
+		err := migrate.RunForSqlite3(db.DB, config.C().MigrationsPath)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	storage := sqlite.NewStorage(db)
 	shorty := shorty.New(storage.Shorty)

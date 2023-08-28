@@ -9,8 +9,9 @@ import (
 )
 
 type Config struct {
-	DBpath  string `env:"SHORTY_DB_PATH" envDefault:"shorty.db"`
-	Address string `env:"SHORTY_ADDRESS" envDefault:":1323"`
+	DBpath         string `env:"SHORTY_DB_PATH" envDefault:"shorty.db"`
+	Address        string `env:"SHORTY_ADDRESS" envDefault:":1323"`
+	MigrationsPath string `env:"SHORTY_MIGRATIONS_PATH" envDefault:"file://migrations"`
 }
 
 var (
