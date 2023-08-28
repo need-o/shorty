@@ -19,7 +19,7 @@ git clone https://github.com/need-o/shorty.git
 
 #Build app
 cd shorty
-make build
+go build
 ```
 
 ## Usage
