@@ -105,4 +105,4 @@ go test ./...
 
 ## License
 
-Shprty released under GNU GPL license, refer [LICENSE](LICENSE) file.
+Shorty released under GNU GPL license, refer [LICENSE](LICENSE) file.
