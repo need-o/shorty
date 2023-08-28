@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetShorty(t *testing.T) {
+func TestSqliteGetShorty(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("valid get shorty", func(t *testing.T) {
@@ -46,7 +46,7 @@ func TestGetShorty(t *testing.T) {
 	})
 }
 
-func TestCreateShorty(t *testing.T) {
+func TestSqliteCreateShorty(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("create valid shorty", func(t *testing.T) {
@@ -95,7 +95,7 @@ func TestCreateShorty(t *testing.T) {
 	})
 }
 
-func TestCreateVisit(t *testing.T) {
+func TestSqliteCreateVisit(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("create valid visit", func(t *testing.T) {
@@ -116,7 +116,7 @@ func TestCreateVisit(t *testing.T) {
 	})
 }
 
-func TestGetVisits(t *testing.T) {
+func TestSqliteGetVisits(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("get existing visits", func(t *testing.T) {

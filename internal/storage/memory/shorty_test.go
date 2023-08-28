@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetShorty(t *testing.T) {
+func TestMemoryGetShorty(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("valid get shorty", func(t *testing.T) {
@@ -40,7 +40,7 @@ func TestGetShorty(t *testing.T) {
 	})
 }
 
-func TestCreateShorty(t *testing.T) {
+func TestMemoryCreateShorty(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("create valid shorty", func(t *testing.T) {
@@ -86,7 +86,7 @@ func TestCreateShorty(t *testing.T) {
 	})
 }
 
-func TestCreateVisit(t *testing.T) {
+func TestMemoryCreateVisit(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("create valid visit", func(t *testing.T) {
@@ -106,7 +106,7 @@ func TestCreateVisit(t *testing.T) {
 	})
 }
 
-func TestGetVisits(t *testing.T) {
+func TestMemoryGetVisits(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("get existing visits", func(t *testing.T) {
