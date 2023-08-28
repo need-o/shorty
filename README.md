@@ -10,7 +10,8 @@
     * View statistics on short link visits
     * Redirecting users to real url addresses
 
-## Building
+## Build
+Clone the repository and compile the application
 
 ```bash
 # Clone repo
@@ -22,7 +23,7 @@ make build
 ```
 
 ## Usage
-
+You can use environment variables to change the default address to the database and the server address
 ```bash
 # Export environment variables
 export SHORTY_DB_PATH=shorty.db
