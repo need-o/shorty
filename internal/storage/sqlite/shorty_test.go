@@ -1,9 +1,13 @@
-package memory
+package sqlite
 
 import (
 	"context"
+	"log"
+	"os"
 	"testing"
 
+	"github.com/jmoiron/sqlx"
+	"github.com/need-o/shorty/internal/migrate"
 	"github.com/need-o/shorty/internal/models"
 
 	"github.com/stretchr/testify/assert"
@@ -13,7 +17,8 @@ func TestGetShorty(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("valid get shorty", func(t *testing.T) {
-		s := NewShortyStorage()
+		deleteDB()
+		s := NewShortyStorage(createDB())
 
 		input := models.Shorty{
 			ID:  "test",
@@ -33,7 +38,8 @@ func TestGetShorty(t *testing.T) {
 	})
 
 	t.Run("not found get shorty", func(t *testing.T) {
-		s := NewShortyStorage()
+		deleteDB()
+		s := NewShortyStorage(createDB())
 
 		_, err := s.GetShorty(ctx, "test")
 		assert.ErrorIs(t, err, models.ErrShortyNotFound)
@@ -44,7 +50,8 @@ func TestCreateShorty(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("create valid shorty", func(t *testing.T) {
-		s := NewShortyStorage()
+		deleteDB()
+		s := NewShortyStorage(createDB())
 
 		input := models.Shorty{
 			URL: "https://example.com",
@@ -57,7 +64,8 @@ func TestCreateShorty(t *testing.T) {
 	})
 
 	t.Run("create valid shorty with ID", func(t *testing.T) {
-		s := NewShortyStorage()
+		deleteDB()
+		s := NewShortyStorage(createDB())
 
 		input := models.Shorty{
 			ID:  "test",
@@ -71,7 +79,8 @@ func TestCreateShorty(t *testing.T) {
 	})
 
 	t.Run("create invalid shorty with existing ID", func(t *testing.T) {
-		s := NewShortyStorage()
+		deleteDB()
+		s := NewShortyStorage(createDB())
 
 		input := models.Shorty{
 			ID:  "test",
@@ -90,7 +99,8 @@ func TestCreateVisit(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("create valid visit", func(t *testing.T) {
-		s := NewShortyStorage()
+		deleteDB()
+		s := NewShortyStorage(createDB())
 
 		input := models.Visit{
 			ShortyID:  "test",
@@ -110,7 +120,8 @@ func TestGetVisits(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("get existing visits", func(t *testing.T) {
-		s := NewShortyStorage()
+		deleteDB()
+		s := NewShortyStorage(createDB())
 		count := 10
 
 		input := models.Visit{
@@ -132,11 +143,30 @@ func TestGetVisits(t *testing.T) {
 	})
 
 	t.Run("get not existing visits", func(t *testing.T) {
-		s := NewShortyStorage()
+		deleteDB()
+		s := NewShortyStorage(createDB())
 
 		visits, err := s.GetVisits(ctx, "not_existing")
 		assert.NoError(t, err)
 
 		assert.True(t, len(visits) == 0)
 	})
+}
+
+func createDB() *sqlx.DB {
+	db, err := sqlx.Open("sqlite3", "shorty_test.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = migrate.RunForSqlite3(db.DB, "file://../../../migrations")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return db
+}
+
+func deleteDB() {
+	os.Remove("shorty_test.db")
 }
