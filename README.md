@@ -50,7 +50,7 @@ curl -d '{"url": "https://example.com" }' -H "Content-Type: application/json" -X
 #### Follow the short link
 
 ```bash
-curl http://localhost:1323/sE5qwb -verbose 
+curl http://localhost:1323/sE5qwb -v
 ```
 
 ```
@@ -61,12 +61,11 @@ curl http://localhost:1323/sE5qwb -verbose
 > Host: localhost:1323
 > User-Agent: curl/8.2.1
 > Accept: */*
-> Referer: rbose
 > 
 < HTTP/1.1 301 Moved Permanently
 < Location: https://example.com
-< X-Request-Id: ex3lMGKXYoOO5vw1ZjfPMmxUsVMg4MqG
-< Date: Mon, 28 Aug 2023 11:28:50 GMT
+< X-Request-Id: vwdoUkuTzQAQ6d65lGwTOatPipViaiYM
+< Date: Mon, 28 Aug 2023 14:14:41 GMT
 < Content-Length: 0
 < 
 * Connection #0 to host localhost left intact
