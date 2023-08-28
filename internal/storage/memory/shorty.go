@@ -2,7 +2,7 @@ package memory
 
 import (
 	"context"
-	"shorty/internal/models"
+	"github.com/need-o/shorty/internal/models"
 	"sync"
 )
 

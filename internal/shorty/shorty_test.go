@@ -2,9 +2,10 @@ package shorty
 
 import (
 	"context"
-	"shorty/internal/models"
-	"shorty/internal/storage/memory"
 	"testing"
+
+	"github.com/need-o/shorty/internal/models"
+	"github.com/need-o/shorty/internal/storage/memory"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

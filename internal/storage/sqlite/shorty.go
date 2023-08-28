@@ -5,7 +5,8 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"shorty/internal/models"
+
+	"github.com/need-o/shorty/internal/models"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/mattn/go-sqlite3"

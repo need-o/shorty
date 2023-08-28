@@ -5,11 +5,12 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"shorty/internal/models"
-	"shorty/internal/shorty"
-	"shorty/internal/storage/memory"
 	"strings"
 	"testing"
+
+	"github.com/need-o/shorty/internal/models"
+	"github.com/need-o/shorty/internal/shorty"
+	"github.com/need-o/shorty/internal/storage/memory"
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"

@@ -2,9 +2,9 @@ package api
 
 import (
 	"context"
+	"github.com/need-o/shorty/internal/models"
 	"net/http"
 	"net/url"
-	"shorty/internal/models"
 
 	"github.com/labstack/echo/v4"
 )

@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 	"errors"
+	"github.com/need-o/shorty/internal/api"
+	"github.com/need-o/shorty/internal/config"
+	"github.com/need-o/shorty/internal/shorty"
+	"github.com/need-o/shorty/internal/storage/sqlite"
 	"net/http"
 	"os"
 	"os/signal"
-	"shorty/internal/api"
-	"shorty/internal/config"
-	"shorty/internal/shorty"
-	"shorty/internal/storage/sqlite"
 	"syscall"
 	"time"
 

@@ -3,8 +3,8 @@ package api
 import (
 	"errors"
 	"fmt"
+	"github.com/need-o/shorty/internal/models"
 	"net/http"
-	"shorty/internal/models"
 
 	log "github.com/sirupsen/logrus"
 

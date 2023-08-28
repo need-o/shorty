@@ -3,8 +3,9 @@ package shorty
 import (
 	"context"
 	"net/url"
-	"shorty/internal/models"
 	"strings"
+
+	"github.com/need-o/shorty/internal/models"
 
 	"github.com/google/uuid"
 )

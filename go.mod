@@ -1,4 +1,4 @@
-module shorty
+module github.com/need-o/shorty
 
 go 1.21.0
 

@@ -2,8 +2,9 @@ package memory
 
 import (
 	"context"
-	"shorty/internal/models"
 	"testing"
+
+	"github.com/need-o/shorty/internal/models"
 
 	"github.com/stretchr/testify/assert"
 )
