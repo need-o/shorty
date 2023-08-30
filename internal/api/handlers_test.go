@@ -26,7 +26,7 @@ func TestHandleCreateShorty(t *testing.T) {
 	)
 
 	t.Run("create shorty by valid url", func(t *testing.T) {
-		var body = `{"url": "https://examplt.com"}`
+		var body = `{"url": "https://example.com"}`
 		var resp response
 
 		recorder := httptest.NewRecorder()
