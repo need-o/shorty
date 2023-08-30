@@ -36,9 +36,7 @@ func TestNewID(t *testing.T) {
 			out := NewID(test.in)
 
 			for i := 0; i < 100; i++ {
-				out2 := NewID(test.in)
-				assert.Equal(t, out, out2)
-
+				assert.Equal(t, out, NewID(test.in))
 			}
 
 			assert.Equal(t, out, test.out)
